@@ -12,6 +12,10 @@ public class main {
 				heuristic h = new heuristic(instance);
 				h.nearestNeighbor(deposito); 
 				
+				solution s = new solution(h);
+				s.sol();
+				
+				
 		
 			  
 	}

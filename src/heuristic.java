@@ -4,9 +4,39 @@ public class heuristic {
 	private instanceProblems instance;
 	private int [][] costMatrix;
 	private int [] routes;
+	private int totalcusto;
+	
+	public heuristic() {
+		
+	}
 	
 	public heuristic(instanceProblems instance) {
 		this.instance = instance;
+	}
+	
+	public int[][] getCostMatrix() {
+		return costMatrix;
+	}
+
+	public void setCostMatrix(int[][] costMatrix) {
+		this.costMatrix = costMatrix;
+	}
+
+	public int getTotalcusto() {
+		return totalcusto;
+	}
+
+	public void setTotalcusto(int totalcusto) {
+		this.totalcusto = totalcusto;
+	} 
+	
+	public int [] getRoutes() {
+		return routes;
+		
+	}
+	
+	public void setRoutes(int [] routes) {
+		this.routes = routes;
 	}
 	
 	//Algoritimo do vizinho mais proximo.
@@ -17,8 +47,6 @@ public class heuristic {
 		
 		costMatrix = instance.getCostMatrix();
 		routes = new int[instance.getNumberofClients()];
-		
-		System.out.print("caminho mais proximo: ");
 		
 		routes[r] = dep;
 		r++;
@@ -39,17 +67,18 @@ public class heuristic {
 				
 				
 				if(costMatrix[i][j] < menorcusto) {
+					
+					//Se rola é vazia ou o elemento nao foi visitado
 					if(routes.equals(null) ||  busca(j) == false) {
 						caminho = j;
 						menorcusto = costMatrix[i][j];
 					} 
 					
 				} 
-				
-				
+							
 				
 			}
-			
+			//atribui o menor custo na rota
 			routes[r] = caminho;
 			r++;
 			
@@ -60,15 +89,13 @@ public class heuristic {
 		
 		totalcusto += costMatrix[routes[15]][dep];
 		
+		setTotalcusto(totalcusto);
 		
-		for(int k=1; k<tam; k++) {
-			System.out.print(routes[k] + ", ");
-		}
-		System.out.println("");
-		System.out.println("custo: " + totalcusto);
-	
+		
 	}
 	
+	//busca  se o elemento está no rout, se sim
+	//retorna true ou retorna false
 	public boolean busca(int elemento){ 
 		for (int num : routes) { 
 			if(num==elemento){ 
@@ -77,5 +104,7 @@ public class heuristic {
 			
 		} return false; 
 		
-	} 
+	}
+
+
 }
