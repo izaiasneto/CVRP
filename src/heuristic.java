@@ -5,27 +5,23 @@ public class heuristic {
 	private int [][] costMatrix;
 	private int [] routes;
 	
-	
-	
 	public heuristic(instanceProblems instance) {
 		this.instance = instance;
 	}
 	
-	
-	
-	//Algoritimo do vizinho mais proximo
-	
+	//Algoritimo do vizinho mais proximo.
 	public void nearestNeighbor(int dep) {
-		costMatrix = instance.getCostMatrix();
+		
 		int tamanho = instance.getNumberofClients();
-		int menorcusto = 0, totalcusto = 0;
-		int caminho = dep;
-		int i = 0;
+		int menorcusto = 0, totalcusto = 0, i = 0, caminho = dep;
+		
+		costMatrix = instance.getCostMatrix();
 		routes = new int[instance.getNumberofClients()];
+		
 		System.out.print("caminho mais proximo: ");
+		
 		while(caminho < tamanho) {
-			
-			
+				
 			//posição inicial
 			i = caminho;
 			routes[i] = i; 
@@ -42,25 +38,25 @@ public class heuristic {
 				 
 			} else {
 				
-				// se não, inicialmente o menor custo vai ser o custo da nova posição até o nó
-				// e o caminho vai ser a nova posicao+1 até que seja encontrado o novo menor custo no for
-				// e o novo caminho 
+					// se não, inicialmente o menor custo vai ser o custo da nova posição até o nó
+					// e o caminho vai ser a nova posicao+1 até que seja encontrado o novo menor custo no for
+					// e o novo caminho 
 				
-				menorcusto = costMatrix[i][i+1];	
-				caminho = i+1;
+					menorcusto = costMatrix[i][i+1];	
+					caminho = i+1;
 				
-				for(int j = i+1; j<tamanho; j++) {
+					for(int j = i+1; j<tamanho; j++) {
 					
 					
-					if (costMatrix[i][j] < menorcusto ) {
+						if (costMatrix[i][j] < menorcusto ) {
 						 
-						 caminho = j;
-						 menorcusto = costMatrix[i][j];
+							caminho = j;
+							menorcusto = costMatrix[i][j];
 						 
-					 } 
+						} 
 		 		 
 					
-				}
+					}
 			}		
 			
 			//calcula o custo total
@@ -69,10 +65,5 @@ public class heuristic {
 		
 	    System.out.println("\ncusto total: " + totalcusto);
 	
-	}
-	
-		
-		
-	
-	
+	}	
 }

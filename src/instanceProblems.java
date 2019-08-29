@@ -95,9 +95,7 @@ public class instanceProblems {
 			
 			//capacidade dos veiculos
 			vehicles.capacity = Integer.parseInt(capacity);
-			
-			
-			
+				
 			br.readLine();
 			
 			int demand;

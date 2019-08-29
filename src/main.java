@@ -8,10 +8,9 @@ public class main {
 				instanceProblems instance = new instanceProblems();
 				instance.InstanceFromFile("/Users/Izaias/eclipse-workspace/CVRP/instances/P-n16-k8.txt");
 				heuristic h = new heuristic(instance);
-				h.nearestNeighbor(deposito); //chama a heuristica do deposito
+				h.nearestNeighbor(deposito); 
 				
-				
-			
+		
 			  
 	}
 
