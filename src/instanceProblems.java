@@ -1,8 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -143,10 +145,18 @@ public class instanceProblems {
 			
 			
 			
-		} catch(Exception e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		catch(NoSuchElementException e) {
+			System.out.println("Arquivo em formato inapropriado");
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Arquivo em formato inapropriado");
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}		
 		
 	}
 
