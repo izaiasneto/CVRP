@@ -12,58 +12,70 @@ public class heuristic {
 	//Algoritimo do vizinho mais proximo.
 	public void nearestNeighbor(int dep) {
 		
-		int tamanho = instance.getNumberofClients();
-		int menorcusto = 0, totalcusto = 0, i = 0, caminho = dep;
+		int tam = instance.getNumberofClients();
+		int menorcusto = 0, totalcusto = 0, i,  r = 1, caminho = 1;
 		
 		costMatrix = instance.getCostMatrix();
 		routes = new int[instance.getNumberofClients()];
 		
 		System.out.print("caminho mais proximo: ");
 		
-		while(caminho < tamanho) {
-				
-			//posição inicial
+		routes[r] = dep;
+		r++;
+		
+		while(r < tam) {
 			i = caminho;
-			routes[i] = i; 
-			System.out.print( routes[i] + " ->> ");
+			menorcusto = Integer.MAX_VALUE;
 			
-			//se posição for a final
-			if(caminho == tamanho-1) {
-				 //então o menor custo vai ser o custo da posição final até o deposito.
-				 menorcusto= costMatrix[i][dep];
-				 routes[i] = dep;
-				 caminho++;
-				 System.out.print( routes[i] );
-				 
-				 
-			} else {
+			for(int j = 1; j<tam; j++) {
 				
-					// se não, inicialmente o menor custo vai ser o custo da nova posição até o nó
-					// e o caminho vai ser a nova posicao+1 até que seja encontrado o novo menor custo no for
-					// e o novo caminho 
+				if( i == j) {	
+					continue;
+				} 
 				
-					menorcusto = costMatrix[i][i+1];	
-					caminho = i+1;
+				if( j == dep) {
+					continue;
+				}
 				
-					for(int j = i+1; j<tamanho; j++) {
+				
+				if(costMatrix[i][j] < menorcusto) {
+					if(routes.equals(null) ||  busca(j) == false) {
+						caminho = j;
+						menorcusto = costMatrix[i][j];
+					} 
 					
-					
-						if (costMatrix[i][j] < menorcusto ) {
-						 
-							caminho = j;
-							menorcusto = costMatrix[i][j];
-						 
-						} 
-		 		 
-					
-					}
-			}		
+				} 
+				
+				
+				
+			}
 			
-			//calcula o custo total
-			totalcusto = totalcusto + menorcusto;	
+			routes[r] = caminho;
+			r++;
+			
+			totalcusto = totalcusto + menorcusto;
+			
+			
 		}
 		
-	    System.out.println("\ncusto total: " + totalcusto);
+		totalcusto += costMatrix[routes[15]][dep];
+		
+		
+		for(int k=1; k<tam; k++) {
+			System.out.print(routes[k] + ", ");
+		}
+		System.out.println("");
+		System.out.println("custo: " + totalcusto);
 	
-	}	
+	}
+	
+	public boolean busca(int elemento){ 
+		for (int num : routes) { 
+			if(num==elemento){ 
+				return true; 
+			} 
+			
+		} return false; 
+		
+	} 
 }

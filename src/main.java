@@ -3,7 +3,7 @@ public class main {
 
 	public static void main(String[] args) {
 					
-				int deposito = 5; //posição do deposito
+				int deposito = 1; //posição do deposito
 				
 				instanceProblems instance = new instanceProblems();
 				

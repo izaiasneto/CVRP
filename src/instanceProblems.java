@@ -141,7 +141,7 @@ public class instanceProblems {
 				sc.close();
 			}
 			
-			
+	
 						
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
