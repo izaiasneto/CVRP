@@ -142,9 +142,7 @@ public class instanceProblems {
 			}
 			
 			
-			
-			
-			
+						
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
