@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class heuristic {
 	private instanceProblems instance;
 	private int [][] costMatrix;
-	private int [] cluster;
 	private Vehicle[] vehicles;
 	private Solution[] solution;
 	public static int solucaoTotal = 0;
@@ -31,14 +30,7 @@ public class heuristic {
 	}
 
 	
-	public int [] getCluster() {
-		return cluster;
-		
-	}
-	
-	public void setCluster(int [] cluster) {
-		this.cluster = cluster;
-	}
+
 	
 	//Algoritimo do vizinho mais proximo.
 	public void nearestNeighbor() {
@@ -49,8 +41,6 @@ public class heuristic {
 		
 		//copia os custos das distancias entre nós
 		costMatrix = instance.getCostMatrix();
-		//define o tamanho do cluster
-		cluster = new int[instance.getNumberofClients()];
 		//define o tamanho do array de veiculos.
 		vehicles = new Vehicle[instance.getNumberOfVehicles()];
 		
@@ -77,8 +67,8 @@ public class heuristic {
 				for(int j = 1; j<instance.getNumberofClients(); j++) {
 						
 						if(costMatrix[i][j] < shortestDistance) {
-							//Se rota é vazia ou o elemento nao foi visitado
-							if(cluster.equals(null) ||  clients[j].isInRoute() == false) {
+							//Se o elemento nao foi visitado
+							if(clients[j].isInRoute() == false) {
 								//atualiza o cliente
 								cliente = j;
 								//atualiza o menor caminho
