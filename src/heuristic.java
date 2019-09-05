@@ -48,7 +48,7 @@ public class heuristic {
 		//for para cada veiculo
 		for(int v = 0; v < instance.getNumberOfVehicles(); v++) {
 			
-			//zera tudo para o prixmo veiculos iniciar do deposito
+			//zera tudo para o proximo veiculo iniciar do deposito
 			r=0;
 			cliente = 0;
 			totalcusto = 0;
