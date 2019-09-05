@@ -3,9 +3,14 @@ public class Client {
 
 		private int id;
 		private int demand;
+		private boolean inRoute;
 		
-		public Client(int id) {
+		public Client(int id, int demand) {
 			this.id = id;
+			this.demand = demand;
+			this.setInRoute(false);
+			
+			
 		}
 		
 		public int getDemand() {
@@ -22,6 +27,15 @@ public class Client {
 		public void setId(int id) {
 			this.id = id;
 		}
+
+		public boolean isInRoute() {
+			return inRoute;
+		}
+
+		public void setInRoute(boolean inRoute) {
+			this.inRoute = inRoute;
+		}
+
 		
 		
 

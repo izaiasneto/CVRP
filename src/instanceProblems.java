@@ -19,6 +19,8 @@ public class instanceProblems {
 	
 	private int numberofClients;
 	private int demandofClient;
+	private int numberOfVehicles;
+	private int dep = 0;
 	private  Client [] clients;
 	private int [][] costMatrix;
 	private ArrayList <Client> visitedClients;
@@ -47,6 +49,13 @@ public class instanceProblems {
 		this.demandofClient = demandofClient;
 	}
 	
+	public int getNumberOfVehicles() {
+		return numberOfVehicles;
+	}
+
+	public void setNumberOfVehicles(int numberOfVehicles) {
+		this.numberOfVehicles = numberOfVehicles;
+	}
 	
 	public Client [] getClients() {
 		return clients;
@@ -61,6 +70,14 @@ public class instanceProblems {
 
 	public void setVisitedClients(ArrayList <Client> visitedClients) {
 		this.visitedClients = visitedClients;
+	}
+	
+	public int getDep() {
+		return dep;
+	}
+
+	public void setDep(int dep) {
+		this.dep = dep;
 	}
 	
 	//tratar o arquivo de instancias
@@ -89,52 +106,60 @@ public class instanceProblems {
 			number = number.replace("VEHICLES: ", "");
 			
 			//capacidade dos veiculos
-			vehicles.numberofVehicles = Integer.parseInt(number);
+			numberOfVehicles = Integer.parseInt(number);
 			
 			
 			String capacity = br.readLine();
 			capacity = capacity.replace("CAPACITY: ", "");
 			
+			
 			//capacidade dos veiculos
-			vehicles.capacity = Integer.parseInt(capacity);
-				
+			Vehicle.capacity = Integer.parseInt(capacity);
+			
 			br.readLine();
 			
-			int demand;
-			String line;
-			Scanner sc;
+			//para cada cliente lê-se seu ID e sua demanda
 			
-			line = br.readLine();	
-			sc = new Scanner(line);
+			int demand;
+			int id;
+			String line;
+			
+			
 			
 			//atribui os valores da demanda dos clientes
 			for(int i=0; i<numberofClients; i++) {
 				
+				line = br.readLine();		
+				Scanner sc = new Scanner(line);
+				
+				id = sc.nextInt();
 				demand = sc.nextInt();
-				Client newNode = new Client(i);
+				
+				Client newNode = new Client(id, demand);
 				clients[i] = newNode;
-				clients[i].setDemand(demand);
+				
+				
+				sc.close();
 				
 			}
 			
-			
-			sc.close();
+			br.readLine();
+			br.readLine();
 			
 			costMatrix = new int [numberofClients][numberofClients];
 			int distance;
-			
+			Scanner sc;
 			
 			//distancias entre os nós
-			for(int i=1; i<numberofClients; i++) {
+			for(int i=0; i<numberofClients; i++) {
 				
 				line = br.readLine();
 				sc = new Scanner(line);
-				sc.nextInt();
 				
-				for(int j=1; j<numberofClients; j++) {
+				
+				for(int j=0; j<numberofClients; j++) {
 					distance = sc.nextInt();
 					costMatrix[i][j] = distance;
-					
 				}
 				
 				
@@ -158,10 +183,6 @@ public class instanceProblems {
 		
 	}
 
-
-	
-	
-	
 	
 
 }
