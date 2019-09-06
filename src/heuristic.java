@@ -28,9 +28,6 @@ public class heuristic {
 	public void setCostMatrix(int[][] costMatrix) {
 		this.costMatrix = costMatrix;
 	}
-
-	
-
 	
 	//Algoritimo do vizinho mais proximo.
 	public void nearestNeighbor() {
@@ -81,24 +78,41 @@ public class heuristic {
 				//se o cliente não estiver na rota de algum veiculo
 				if(clients[cliente].isInRoute() == false) {
 					//Se a demanda do cliente nao ultrapassar a capacidade do veiculo 
-					if(vehicles[v].CheckIfFits(clients[cliente].getDemand())) {				
+					if(vehicles[v].CheckIfFits(clients[cliente].getDemand())) {
 						clients[cliente].setInRoute(true); //troca o InRoute do cliente para true		
 						vehicles[v].AddClient(clients[cliente]); //adiciona o cliente na rota do veiculo
 					}
 				}
-				r++;
-					
+				
+				r++;		
 		    }
-					
+				
+			//Nova verificação para completar a demanda
+			for(int j = 1; j<instance.getNumberofClients(); j++) {
+				//Se o cliente ainda não está em Rota
+				if(clients[j].isInRoute() == false) {
+					//Se a demanda do cliente nao ultrapassar a capacidade do veiculo 
+					if(vehicles[v].CheckIfFits(clients[j].getDemand())) {
+							
+						clients[j].setInRoute(true); //troca o InRoute do cliente para true		
+						vehicles[v].AddClient(clients[j]); //adiciona o cliente na rota do veiculo
+						}
+					}
+				}
+				
 		}
+		
 		
 		//adiciona o deposito no final
 		solution = new Solution[instance.getNumberOfVehicles()];
+		System.out.println("SOLUÇÃO INICIAL");
 		for(int s= 0; s < solution.length; s++ ) {
+			
 			solution[s] = new Solution(s, vehicles[s].getRoute(), instance);
 			solucaoTotal += solution[s].CalculateTotalCoust();
 			solution[s].CalculateDemandaAtendida();
 		}
+		
 		
 		System.out.println("SOLUÇÃO TOTAL:" + solucaoTotal);
 	}

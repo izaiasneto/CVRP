@@ -90,7 +90,7 @@ public class Solution {
 				Coust = Coust + Route.get(f).getDemand();
 			}
 				
-		    System.out.println("Demanda Atendida  : " + Coust);
+		    System.out.print("Demanda Atendida  : " + Coust);
 		    System.out.println(" ");
 			
 		return Coust;
