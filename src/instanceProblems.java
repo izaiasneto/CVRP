@@ -11,7 +11,7 @@ import java.util.Scanner;
  * Essa classe tem o numero de clientes, o numero de veiculos,
  * a capacidade de cada veiculo, a matriz de custos e demanda de cada cliente
  *
- * @author Izaias
+ 
  *
  */
 
