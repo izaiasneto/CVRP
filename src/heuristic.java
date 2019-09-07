@@ -29,6 +29,14 @@ public class heuristic {
 		this.costMatrix = costMatrix;
 	}
 	
+	public Solution[] getSolution() {
+		return solution;
+	}
+
+	public void setSolution(Solution[] solution) {
+		this.solution = solution;
+	}	
+	
 	//Algoritimo do vizinho mais proximo.
 	public void nearestNeighbor() {
 		int dep = instance.getDep();
@@ -105,24 +113,41 @@ public class heuristic {
 		
 		//adiciona o deposito no final
 		solution = new Solution[instance.getNumberOfVehicles()];
+		
+		//imprimir
+		System.out.println("::: Número de Clientes: " + instance.getNumberofClients()+ " :::");
+		System.out.println("::: Número de Veiculos: " + instance.getNumberOfVehicles() + " :::");
+		System.out.println("::: Capacidade de cada veiculo: " + Vehicle.capacity + " :::");
+		System.out.println("");
+		System.out.println("-----------------");
+		System.out.println("");
 		System.out.println("SOLUÇÃO INICIAL");
+		System.out.println("");
+		
 		for(int s= 0; s < solution.length; s++ ) {
 			
 			solution[s] = new Solution(s, vehicles[s].getRoute(), instance);
-			solucaoTotal += solution[s].CalculateTotalCoust();
+			solucaoTotal += solution[s].getTotalCost();
 			solution[s].CalculateDemandaAtendida();
 		}
 		
+		System.out.println("");
+		System.out.println("SOLUÇÃO MELHORADA");
 		
-		System.out.println("SOLUÇÃO TOTAL:" + solucaoTotal);
+		int solucaoTotalMelhorada = 0;
+		
+		//coloca todos veiculos e rotas no Busca Local VND para encontrar uma melhor rota
+		for(int s= 0; s < solution.length; s++ ) {
+			
+			solution[s].VariableNeighborhoodDescent();
+			solucaoTotalMelhorada += solution[s].getTotalCost();
+		}
+		
+		
+		System.out.println("::: SOLUÇÃO TOTAL:" + solucaoTotal);
+		System.out.println("::: SOLUÇÃO TOTAL COM BUSCA LOCAL VND: " + solucaoTotalMelhorada);
 	}
 
-	public Solution[] getSolution() {
-		return solution;
-	}
-
-	public void setSolution(Solution[] solution) {
-		this.solution = solution;
-	}		
+		
 
 }
