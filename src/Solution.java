@@ -114,8 +114,8 @@ public class Solution {
 		
 		public void VariableNeighborhoodDescent() {
 			
-			Client c1;
-			Client c2;
+			Client client1;
+			Client client2;
 			int custo = 0;
 			
 			//inicia de 1 pois o 0 é o deposito
@@ -125,12 +125,12 @@ public class Solution {
 				if(i<(Route.size()-2)) {
 					
 					
-					c1 = Route.get(i); //atribui ao c1 a posição i da rota
-					c2 = Route.get(i+1); //atribui ao c2 a posição i+1 da rota
+					client1 = Route.get(i); //atribui ao client1 a posição i da rota
+					client2 = Route.get(i+1); //atribui ao client2 a posição i+1 da rota
 					
 					//troca as posicoes i e i+1
-					Route.set(i, c2);  
-					Route.set(i+1, c1);
+					Route.set(i, client2);  
+					Route.set(i+1, client1);
 					
 					//calcula o novo custo
 					custo = CalculateTotalCost();
@@ -140,8 +140,8 @@ public class Solution {
 						 setTotalCost(custo); //atribui o novo custo no totalCost
 					} else {
 						//senao troca para a rota de antes
-						 Route.set(i, c1);
-						 Route.set(i+1, c2);
+						 Route.set(i, client1);
+						 Route.set(i+1, client2);
 					}
 					
 					
