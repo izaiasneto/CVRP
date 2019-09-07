@@ -91,7 +91,7 @@ public class Solution {
 		
 		public void imprimirRota() {
 			System.out.println("-----------------");
-			System.out.println("VEICULO: " + (id+1) + " :: Demanda atendida:" + DemandaAtendida);
+			System.out.println("VEICULO: " + (id+1) + " :: Demanda atendida: " + DemandaAtendida);
 			System.out.print("[");
 			for(int teste = 0; teste <Route.size(); teste++) {
 				System.out.print(Route.get(teste).getId());
