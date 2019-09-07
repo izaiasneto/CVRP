@@ -132,7 +132,7 @@ public class heuristic {
 		}
 		
 		System.out.println("");
-		System.out.println("SOLUÇÃO MELHORADA");
+		System.out.println("SOLUÇÃO COM BUSCA LOCAL VND");
 		
 		int solucaoTotalMelhorada = 0;
 		
