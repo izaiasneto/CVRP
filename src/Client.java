@@ -5,11 +5,11 @@ public class Client {
 		private int demand;
 		private boolean inRoute;
 		
+		
 		public Client(int id, int demand) {
 			this.id = id;
 			this.demand = demand;
 			this.setInRoute(false);
-			
 			
 		}
 		
@@ -37,6 +37,4 @@ public class Client {
 		}
 
 		
-		
-
 }

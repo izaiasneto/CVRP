@@ -2,14 +2,35 @@ import java.util.ArrayList;
 
 
 public class Solution {
-		private int id;
+		private int id = 0;
 		private instanceProblems instance;
 		private int [][] costMatrix;
 		private  ArrayList<Client> Route;
 		private  int TotalCost;
 		private  int DemandaAtendida;
 		
-
+		public Solution() {
+			
+		}
+		
+		public Solution (Solution solucao)
+		{
+		     this.id = solucao.id;
+		     this.Route = (ArrayList<Client>) solucao.Route.clone();
+		     this.instance = solucao.instance;
+		    
+		}
+		
+		public Solution(ArrayList<Client> Route, int id, instanceProblems instance) {
+			this.setId(id);
+			this.setRoute(Route);
+			this.instance = instance;
+			setDemandaAtendida(CalculateDemandaAtendida());
+			setTotalCost(CalculateTotalCost());
+			//imprimirRota();
+			
+		}
+		
 		public Solution(int id, ArrayList<Client> Route, instanceProblems instance) {
 			Client cliente = new Client(0, 0);
 			this.setId(id);
@@ -18,7 +39,7 @@ public class Solution {
 			this.instance = instance;
 			setDemandaAtendida(CalculateDemandaAtendida());
 			setTotalCost(CalculateTotalCost());
-			imprimirRota();
+			//imprimirRota();
 			
 		}
 		
@@ -79,13 +100,15 @@ public class Solution {
 		public int CalculateDemandaAtendida() {
 			int Cost = 0;
 			
-			for(int f = 0; f < Route.size()-1; f++) {
+			for(int f = 0; f < Route.size(); f++) {
 			
 				Cost = Cost + Route.get(f).getDemand();
 			}
 			
 		return Cost;
 	  }
+	
+	
 
 	
 		
@@ -149,9 +172,10 @@ public class Solution {
 			}
 			
 			imprimirRota();
-			
-			
-			
+				
 		}
+		
+		
+		
 
 }

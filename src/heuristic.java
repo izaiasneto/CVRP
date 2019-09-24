@@ -1,13 +1,18 @@
 import java.util.ArrayList;
 
-public class heuristic {
-	private instanceProblems instance;
+public class heuristic implements Cloneable{
+	public static instanceProblems instance;
 	private int [][] costMatrix;
 	private Vehicle[] vehicles;
+	public int vehicleCapacity;
 	private Solution[] solution;
 	public static int solucaoTotal = 0;
+	private ArrayList<ElementTabuList> listaTabu = new ArrayList<ElementTabuList>();
+	private int tamanhoListaTabu = 500;
 	
-	
+	public heuristic clone()throws CloneNotSupportedException{  
+		return (heuristic) super.clone();  
+		} 
 
 	public Vehicle[] getVehicles() {
 		return vehicles;
@@ -39,9 +44,9 @@ public class heuristic {
 	
 	//Algoritimo do vizinho mais proximo.
 	public void nearestNeighbor() {
-		int dep = instance.getDep();
 		
-		int shortestDistance = 0, i = 0,  r , l = 0, cliente = 0, totalcusto = 0;
+		
+		int shortestDistance = 0, i = 0,  r , cliente = 0;
 		Client [] clients = instance.getClients();
 		
 		//copia os custos das distancias entre nós
@@ -56,9 +61,8 @@ public class heuristic {
 			//zera tudo para o proximo veiculo iniciar do deposito
 			r=0;
 			cliente = 0;
-			totalcusto = 0;
-			
 			vehicles[v] = new Vehicle();
+			vehicleCapacity = Vehicle.capacity;
 			
 			//adiciona o deposito no inicio da rota do veiculo
 			vehicles[v].AddClient(clients[cliente]);
@@ -127,8 +131,8 @@ public class heuristic {
 		for(int s= 0; s < solution.length; s++ ) {
 			
 			solution[s] = new Solution(s, vehicles[s].getRoute(), instance);
+			solution[s].imprimirRota();
 			solucaoTotal += solution[s].getTotalCost();
-			solution[s].CalculateDemandaAtendida();
 		}
 		
 		System.out.println("");
@@ -148,6 +152,6 @@ public class heuristic {
 		System.out.println("::: SOLUÇÃO TOTAL COM BUSCA LOCAL VND: " + solucaoTotalMelhorada);
 	}
 
-		
+
 
 }
