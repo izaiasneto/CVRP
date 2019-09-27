@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class heuristic implements Cloneable{
+	
 	public static instanceProblems instance;
 	private int [][] costMatrix;
 	private Vehicle[] vehicles;
@@ -10,6 +12,8 @@ public class heuristic implements Cloneable{
 	private ArrayList<ElementTabuList> listaTabu = new ArrayList<ElementTabuList>();
 	private int tamanhoListaTabu = 500;
 	
+	
+	//Getters and Setters
 	public heuristic clone()throws CloneNotSupportedException{  
 		return (heuristic) super.clone();  
 		} 
@@ -42,56 +46,71 @@ public class heuristic implements Cloneable{
 		this.solution = solution;
 	}	
 	
-	//Algoritimo do vizinho mais proximo.
+	//Construção Gulosa.
 	public void nearestNeighbor() {
-		
-		
+			
 		int shortestDistance = 0, i = 0,  r , cliente = 0;
+		
 		Client [] clients = instance.getClients();
 		
-		//copia os custos das distancias entre nós
-		costMatrix = instance.getCostMatrix();
-		//define o tamanho do array de veiculos.
-		vehicles = new Vehicle[instance.getNumberOfVehicles()];
+		
+		costMatrix = instance.getCostMatrix(); //copia os custos das distancias entre nós
+		
+		vehicles = new Vehicle[instance.getNumberOfVehicles()];//define o tamanho do array de veiculos.
 		
 		
-		//for para cada veiculo
-		for(int v = 0; v < instance.getNumberOfVehicles(); v++) {
-			
-			//zera tudo para o proximo veiculo iniciar do deposito
-			r=0;
-			cliente = 0;
-			vehicles[v] = new Vehicle();
-			vehicleCapacity = Vehicle.capacity;
-			
-			//adiciona o deposito no inicio da rota do veiculo
-			vehicles[v].AddClient(clients[cliente]);
-			
-			while(r < instance.getNumberofClients()) {
-				
-				i = cliente;		
-				
-				shortestDistance = Integer.MAX_VALUE;
-				
-				for(int j = 1; j<instance.getNumberofClients(); j++) {
+				//for para cada veiculo
+				for(int v = 0; v < instance.getNumberOfVehicles(); v++) {
+					
+					//zera tudo para o proximo veiculo iniciar do deposito
+					r=0;
+					cliente = 0;
+					Random ran = new Random();
+					int rand;
+					
+					
+					vehicles[v] = new Vehicle();
+					
+					vehicleCapacity = vehicles[v].capacity;  //capacidade do veiculo
+					
+					vehicles[v].AddClient(clients[cliente]); //adiciona o deposito no inicio da rota do veiculo
+					
+					
+					//enquanto nao visitar todos os clientes
+					while(r < instance.getNumberofClients()) {
 						
-						if(costMatrix[i][j] < shortestDistance) {
-							//Se o elemento nao foi visitado
-							if(clients[j].isInRoute() == false) {
-								//atualiza o cliente
-								cliente = j;
-								//atualiza o menor caminho
-								shortestDistance = costMatrix[i][j];						
-							}
+						i = cliente;		
+						
+						shortestDistance = Integer.MAX_VALUE; 
+						
+						for(int j = 1; j<instance.getNumberofClients(); j++) {
+								
+								rand = ran.nextInt(instance.getNumberofClients()+1); //pega um cliente aleatorio
+								
+								if(rand < instance.getNumberofClients() && rand != 0) {
+									
+									//Se a distancia do client para i for menor que a menor distancia
+									if(costMatrix[i][rand] < shortestDistance) {
+										
+										//Se o elemento nao foi visitado
+										if(clients[rand].isInRoute() == false) {
+											
+											
+											cliente = rand; //atualiza o cliente
+											
+											shortestDistance = costMatrix[i][rand]; //atualiza o menor caminho						
+										}
+									} 
+							    }	
 						} 
-						
-				} 
 				
 				//se o cliente não estiver na rota de algum veiculo
 				if(clients[cliente].isInRoute() == false) {
+					
 					//Se a demanda do cliente nao ultrapassar a capacidade do veiculo 
 					if(vehicles[v].CheckIfFits(clients[cliente].getDemand())) {
-						clients[cliente].setInRoute(true); //troca o InRoute do cliente para true		
+						
+						clients[cliente].setInRoute(true); //troca o InRoute do cliente para true
 						vehicles[v].AddClient(clients[cliente]); //adiciona o cliente na rota do veiculo
 					}
 				}
@@ -99,23 +118,27 @@ public class heuristic implements Cloneable{
 				r++;		
 		    }
 				
-			//Nova verificação para completar a demanda
+			//Nova verificação para completar a demanda com clientes que ainda nao foram adicionados
 			for(int j = 1; j<instance.getNumberofClients(); j++) {
+				
+				rand = ran.nextInt(instance.getNumberofClients()+1); //pega o cliente aleatoriamente
+				
+				if(rand < instance.getNumberofClients() && rand != 0) {
 				//Se o cliente ainda não está em Rota
-				if(clients[j].isInRoute() == false) {
-					//Se a demanda do cliente nao ultrapassar a capacidade do veiculo 
-					if(vehicles[v].CheckIfFits(clients[j].getDemand())) {
-							
-						clients[j].setInRoute(true); //troca o InRoute do cliente para true		
-						vehicles[v].AddClient(clients[j]); //adiciona o cliente na rota do veiculo
+					if(clients[rand].isInRoute() == false) {
+						//Se a demanda do cliente nao ultrapassar a capacidade do veiculo 
+						if(vehicles[v].CheckIfFits(clients[rand].getDemand())) {
+								
+							clients[rand].setInRoute(true); //troca o InRoute do cliente para true		
+							vehicles[v].AddClient(clients[rand]); //adiciona o cliente na rota do veiculo
+							}
 						}
 					}
-				}
-				
+			    }
 		}
 		
 		
-		//adiciona o deposito no final
+		
 		solution = new Solution[instance.getNumberOfVehicles()];
 		
 		//imprimir
@@ -128,6 +151,7 @@ public class heuristic implements Cloneable{
 		System.out.println("SOLUÇÃO INICIAL");
 		System.out.println("");
 		
+		//adiciona o deposito no final em todas as rotas e adiciona todas em uma solucao
 		for(int s= 0; s < solution.length; s++ ) {
 			
 			solution[s] = new Solution(s, vehicles[s].getRoute(), instance);
@@ -140,10 +164,11 @@ public class heuristic implements Cloneable{
 		
 		int solucaoTotalMelhorada = 0;
 		
-		//coloca todos veiculos e rotas no Busca Local VND para encontrar uma melhor rota
+		//coloca todos veiculos e rotas no Busca Local VND para encontrar uma melhor rota.
 		for(int s= 0; s < solution.length; s++ ) {
 			
 			solution[s].VariableNeighborhoodDescent();
+			solution[s].imprimirRota();
 			solucaoTotalMelhorada += solution[s].getTotalCost();
 		}
 		

@@ -5,8 +5,10 @@ public class metaheuristic {
 	private heuristic heuristic;
 	private Solution[] solution;
 	private ArrayList<ElementTabuList> listaTabu = new ArrayList<ElementTabuList>();
-	private int tamanhoListaTabu = 500;
+	private int tamanhoListaTabu = 45;
 	
+	
+	//Getters and Setters
 	public int getTamanhoListaTabu() {
 		return tamanhoListaTabu;
 	}
@@ -38,11 +40,11 @@ public class metaheuristic {
 
 	public void BuscaTabu() {
 		
-		
 		int Iter = 0;
 		int melhorIter =0;
-		int btMax = 1000;
-		int solucaoTotal =0;
+		int btMax = 50000; //numero de interações maxima
+		int solucaoTotal = 0;
+		
 		Solution[] solucaoTemp = null;
 		
 		while((Iter-melhorIter)<= btMax) {
@@ -51,19 +53,24 @@ public class metaheuristic {
 			
 			solucaoTemp = criaSolucaotroca(solution);
 			
+			
+			//Se a função objetivo de solucaoTemp for menor que a do solution
 			if(funcaoObjetivo(solucaoTemp) < funcaoObjetivo(solution)) {
-					//System.out.println("ENTROU");
+				
+				//solution igual a solution temp
 				for(int k = 0; k < solution.length; k++) {
 					solution[k] = new Solution(solucaoTemp[k]);
 					solution[k].setDemandaAtendida(solution[k].CalculateDemandaAtendida());
 				}
-				melhorIter = Iter;
 				
-			} 
-	
-			
+				melhorIter = Iter; //define a menlhor iteração ate o momento
+				
+			} 	
 			
 		}
+		
+		
+		//imprimir a nova rota após aplicação da busca tabu
 		
 		System.out.println(" ");
 		System.out.println("---------BUSCA TABU --------");
@@ -108,33 +115,33 @@ public class metaheuristic {
 
 		for(int i = 0; i < solucao.length; i ++) {
 			
-			roteBase = solucao[i].getRoute();    //define a primeira rota
-			indexrotaBase = i;
+			roteBase = solucao[i].getRoute();    //define a primeira rota para troca
+			indexrotaBase = i;                
 			custorotabase = solucao[i].getTotalCost(); 
 			
 			
 			
 			//seleciona elemento da rota base
 			for(int j = 1; j < roteBase.size() - 1 ; j++) {  //comeca de 1 porque nao pode ser o deposito
-				
 			
 				Client clientRotaBase = roteBase.get(j); //pega o cliente da rota base.
+				
 				ArrayList<Client> rotabaseTemp = (ArrayList<Client>) roteBase.clone();
 				
 				if(clientRotaBase.getId() != 0){
+					
 					//pega a proxima rota para a troca
 					for(int f = 0; f < solucao.length; f++) {
 						
 						if(f != indexrotaBase) { //para pegar uma rota diferente da primeira
 							
-							rotaParaTroca = solucao[f].getRoute(); //pega outra rota para comparar
+							rotaParaTroca = solucao[f].getRoute(); 
 							indexrotaTroca = f;
 							custorotatroca = solucao[f].getTotalCost();
 							
 							
 							for(int g = 1; g < rotaParaTroca.size() - 1; g++) { //comeca de 1 porque nao pode ser o deposito
 								
-									
 								    Client clientRotaTroca = rotaParaTroca.get(g);
 								    
 									if(clientRotaTroca.getId() != 0) {
@@ -157,7 +164,6 @@ public class metaheuristic {
 										
 										//troca temporaria
 									
-										//Solution[] solucaoTemp2  =  solucao.clone();
 										Solution[] solucaoTemp2 = new Solution[solucao.length];
 										
 										for(int k = 0; k < solucao.length; k++) {
@@ -165,7 +171,7 @@ public class metaheuristic {
 											solucaoTemp2[k].setDemandaAtendida(solucaoTemp2[k].CalculateDemandaAtendida());
 										}
 										
-										//Solution[] solucaoTemp2 =  solucao;
+										
 										//troca o item da rota base com outra rota
 										solucaoTemp2[i].getRoute().set(j, clone2.get(g));
 										
@@ -181,20 +187,20 @@ public class metaheuristic {
 										solucaoTemp2[indexrotaTroca].getRoute().set(g, clone1.get(j));
 								
 										//recalcula a demanda
-										//solucaoTemp[indexrotaTroca].setDemandaAtendida(solucaoTemp[indexrotaTroca].CalculateDemandaAtendida());
+										solucaoTemp2[indexrotaTroca].setDemandaAtendida(solucaoTemp2[indexrotaTroca].CalculateDemandaAtendida());
 										//recalcula o custo total
 										solucaoTemp2[indexrotaTroca].setTotalCost(solucaoTemp2[indexrotaTroca].CalculateTotalCost());
 										//armazena o custo total em uma variavel chamada custoRotaparaTrocaTemp
 										int custoRotaParaTrocaTemp = solucaoTemp2[indexrotaTroca].getTotalCost();
 										
 										
-										//calcula o custo total de todas as rotas
+										//calcula o custo total da nova solucao com a troca
 										int custoSolucaoCriada = custoRotaTempBase + custoRotaParaTrocaTemp;
 										
 									
 										
 										//Teste de melhoria
-										if(custoRotaTempBase < custorotabase || custoRotaTempBase < custorotatroca || custoSolucaoCriada < custoTempSolucao){
+										if(custoRotaTempBase < custorotabase || custoRotaParaTrocaTemp < custorotatroca || custoSolucaoCriada < custoTempSolucao){
 											custoTempSolucao = custoSolucaoCriada;
 
 											for(int k = 0; k < solucao.length; k++) {
@@ -219,6 +225,8 @@ public class metaheuristic {
 		
 		
 		ElementTabuList elemento = new ElementTabuList(indexElemento1, indexElemento2);
+		
+		//adiciona o cliente na lista Tabu
 		adicionaListaTabu(elemento);
 	
 		return solucaocriada;	

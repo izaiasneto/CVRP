@@ -135,7 +135,7 @@ public class Solution {
 		}
 		
 		
-		public void VariableNeighborhoodDescent() {
+public void VariableNeighborhoodDescent() {
 			
 			Client client1;
 			Client client2;
@@ -144,36 +144,44 @@ public class Solution {
 			//inicia de 1 pois o 0 é o deposito
 			for(int i = 1; i < Route.size(); i++) {
 				
-				//if para nao deixar trocar com deposito
-				if(i<(Route.size()-2)) {
+				for(int j = 1; j < Route.size(); j++) {	
 					
+					 if( i == j) {
+						 continue;
+					 }
 					
-					client1 = Route.get(i); //atribui ao client1 a posição i da rota
-					client2 = Route.get(i+1); //atribui ao client2 a posição i+1 da rota
+					 //if para nao deixar trocar com deposito
+					if(i<(Route.size()-2) && j<(Route.size()-2)) {
+						
+						
+						client1 = Route.get(i); //atribui ao client1 a posição i da rota
+						client2 = Route.get(j); //atribui ao client2 a posição i+1 da rota
+						
+						//troca as posicoes i e i+1
+						Route.set(i, client2);  
+						Route.set(j, client1);
+						
+						//calcula o novo custo
+						custo = CalculateTotalCost();
+						
+						//se o novo custo for menor que o custo anterior
+						if(custo <  TotalCost) {
+							 setTotalCost(custo); //atribui o novo custo no totalCost
+						} else {
+							//senao troca para a rota de antes
+							 Route.set(i, client1);
+							 Route.set(j, client2);
+						}
+						
+						
 					
-					//troca as posicoes i e i+1
-					Route.set(i, client2);  
-					Route.set(i+1, client1);
-					
-					//calcula o novo custo
-					custo = CalculateTotalCost();
-					
-					//se o novo custo for menor que o custo anterior
-					if(custo <  TotalCost) {
-						 setTotalCost(custo); //atribui o novo custo no totalCost
-					} else {
-						//senao troca para a rota de antes
-						 Route.set(i, client1);
-						 Route.set(i+1, client2);
 					}
+				}	
 					
-					
-				}
-			}
-			
-			imprimirRota();
+			}		
 				
 		}
+		
 		
 		
 		

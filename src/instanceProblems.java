@@ -160,13 +160,16 @@ public class instanceProblems {
 				for(int j=0; j<numberofClients; j++) {
 					distance = sc.nextInt();
 					costMatrix[i][j] = distance;
+					
 				}
 				
 				
 				sc.close();
+				
+				
 			}
 			
-	
+			
 						
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
