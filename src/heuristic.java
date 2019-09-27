@@ -73,7 +73,7 @@ public class heuristic implements Cloneable{
 					
 					vehicleCapacity = vehicles[v].capacity;  //capacidade do veiculo
 					
-					vehicles[v].AddClient(clients[cliente]); //adiciona o deposito no inicio da rota do veiculo
+					vehicles[0].AddClient(clients[0]); //adiciona o deposito no inicio da rota do veiculo
 					
 					
 					//enquanto nao visitar todos os clientes

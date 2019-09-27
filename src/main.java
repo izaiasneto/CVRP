@@ -7,16 +7,15 @@ public class main {
 			
 			for( int i = 1; i<=1; i++ ) {
 				
-				
-				
+
 				instanceProblems instance = new instanceProblems();
 				
 				instance.InstanceFromFile("/Users/Izaias/eclipse-workspace/CVRP/instances/P-n19-k2.txt");
 				
+				long tempoInicio = System.currentTimeMillis(); //calcular tempo
+				
 				//heuristica de construção
 				heuristic h = new heuristic(instance);
-				
-				long tempoInicio = System.currentTimeMillis(); //calcular tempo
 				h.nearestNeighbor();
 				
 				tempoconstFinal += (System.currentTimeMillis()-tempoInicio);
